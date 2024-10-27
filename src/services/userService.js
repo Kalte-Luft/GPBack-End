@@ -1,3 +1,4 @@
+import { raw } from "body-parser";
 import db from "../models/index.js";
 import bcrypt from "bcryptjs";
 let handleUserLogin = async(email, password) => {
@@ -39,7 +40,6 @@ let handleUserLogin = async(email, password) => {
         }
     })
 }
-
 let checkUserEmail = (email) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -56,7 +56,6 @@ let checkUserEmail = (email) => {
         }
     })
 }
-
 let getAllUsers = (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -84,9 +83,113 @@ let getAllUsers = (userId) => {
     })
 
 }
+let hashUserPassword = (password) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let salt = bcrypt.genSaltSync(10);
+            let hashPassword = bcrypt.hashSync(password, salt);
+            resolve(hashPassword);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+let createNewUser = async(data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if(!data.email || !data.password || !data.phone){
+                resolve({
+                    errCode: 2,
+                    errMessage: "Missing required parameter!"
+                });
+            }else{
+                let isExist = await checkUserEmail(data.email);
+                if(isExist){
+                    resolve({
+                        errCode: 1,
+                        errMessage: "Your email is already in used. Please try another email!"
+                    });
+                }else{
+                    let hashPassword = await hashUserPassword(data.password);
+                    await db.User.create({
+                        email: data.email,
+                        password: hashPassword,
+                        phone: data.phone,
+                    });
+                    resolve({
+                        errCode: 0,
+                        errMessage: "OK"
+                    });
+                }
+            }
+        } catch (error) {         
+            reject(error);
+        }
+    })
+}
+let deleteUser = async(userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { id: userId }
+            });
+            if(!user){
+                resolve({
+                    errCode: 1,
+                    errMessage: "The user isn't exist!"
+                });
+            }
+            await db.User.destroy({
+                where: { id: userId }
+            });
+            resolve({
+                errCode: 0,
+                errMessage: "The user is deleted!"
+            });
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+let updateUser = async(data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if(!data.id){
+                resolve({
+                    errCode: 2,
+                    errMessage: "Missing required parameter!"
+                });
+            }else{
+                let user = await db.User.findOne({
+                    where: { id: data.id },
+                });
+                if(!user){
+                    resolve({
+                        errCode: 1,
+                        errMessage: "The user isn't exist!"
+                    });
+                }
+                user.name = data.name;
+                user.email = data.email;
+                user.phone = data.phone;
+                user.address = data.address;
+                await user.save();
+                resolve({
+                    errCode: 0,
+                    errMessage: "The user is updated!"
+                });
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
 
 module.exports = {
     handleUserLogin: handleUserLogin,
     checkUserEmail: checkUserEmail,
-    getAllUsers: getAllUsers
+    getAllUsers: getAllUsers,
+    createNewUser: createNewUser,
+    deleteUser: deleteUser,
+    updateUser: updateUser,
 }
