@@ -78,7 +78,6 @@ let getAllUsers = (userId) => {
                     },
                 });
             }
-            console.log(users);
             resolve(users);
         } catch (error) {
             reject(error);
