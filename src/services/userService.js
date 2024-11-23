@@ -1,6 +1,7 @@
 import { raw } from "body-parser";
 import db from "../models/index.js";
 import bcrypt from "bcryptjs";
+import { name } from "ejs";
 let handleUserLogin = async (email, password) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -9,7 +10,7 @@ let handleUserLogin = async (email, password) => {
             if (isExist) {
                 //user exist
                 let user = await db.User.findOne({
-                    attributes: ["email", "role", "password"],
+                    attributes: ["email", "role", "password", "name"],
                     where: { email: email },
                 });
                 if (user) {
@@ -108,9 +109,11 @@ let createNewUser = async (data) => {
             } else {
                 let hashPassword = await hashUserPassword(data.password);
                 await db.User.create({
+                    name: data.name,
                     email: data.email,
                     password: hashPassword,
                     phone: data.phone,
+                    address: data.address,
                 });
                 resolve({
                     errCode: 0,
@@ -168,6 +171,7 @@ let updateUser = async (data) => {
                 user.email = data.email;
                 user.phone = data.phone;
                 user.address = data.address;
+                user.role = data.role;
                 await user.save();
                 resolve({
                     errCode: 0,
