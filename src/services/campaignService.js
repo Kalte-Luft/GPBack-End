@@ -8,8 +8,6 @@ let getAllCampaigns = (id) => {
                 campaigns = await db.Campaign.findAll({
                     include: [
                         { model: db.Province, as: "province", attributes: ["name"] },
-                        { model: db.Participant, as: "participants" },
-                        { model: db.Activity, as: "activities" },
                         { model: db.Partner, as: "partners" },
                     ],
                 });
@@ -18,8 +16,6 @@ let getAllCampaigns = (id) => {
                     where: { id },
                     include: [
                         { model: db.Province, as: "province", attributes: ["name"] },
-                        { model: db.Participant, as: "participants" },
-                        { model: db.Activity, as: "activities" },
                         { model: db.Partner, as: "partners" },
                     ],
                 });
