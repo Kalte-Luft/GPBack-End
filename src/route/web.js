@@ -1,6 +1,7 @@
 import express from 'express';
 import userController from '../controllers/userController';
 import homeController from '../controllers/homeController';
+import campaignController from '../controllers/campaignController';
 let router = express.Router();
 let initWebRoutes = (app) => {
     router.get("/", homeController.getHomePage);
@@ -13,12 +14,19 @@ let initWebRoutes = (app) => {
     router.post("/put-crud", homeController.putCRUD);
     router.get("/delete-crud", homeController.deleteCRUD);
 
-//api
+//api user
     router.post("/api/login", userController.handleLogin);
     router.get("/api/get-all-users", userController.handleGetAllUsers);
     router.post("/api/create-new-user", userController.handleCreateNewUser);
     router.put("/api/edit-user", userController.handleEditUser);
     router.delete("/api/delete-user", userController.handleDeleteUser);  
+
+//api campaign
+    router.get("/api/get-all-campaigns", campaignController.handleGetAllCampaigns);
+    router.post("/api/create-campaign", campaignController.handleCreateCampaign);
+    router.put("/api/update-campaign", campaignController.handleUpdateCampaign);
+    router.delete("/api/delete-campaign", campaignController.handleDeleteCampaign);
+
     return app.use("/", router);
 };
 module.exports = initWebRoutes;

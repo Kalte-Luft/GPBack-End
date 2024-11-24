@@ -16,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
     campaign_id: DataTypes.BIGINT,
     name: DataTypes.STRING,
     logo: DataTypes.TEXT,
-    role: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Partner',

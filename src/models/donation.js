@@ -7,13 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       Donation.belongsTo(models.User, {
         foreignKey: 'user_id',
         as: 'User',
-      });
-
-      // Liên kết với Participant
-      Donation.belongsTo(models.Participant, {
-        foreignKey: 'participant_id',
-        as: 'Participant',
-      });
+      });   
     }
   }
   Donation.init(
