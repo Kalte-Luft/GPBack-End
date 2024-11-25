@@ -4,18 +4,30 @@ let getAllCampaigns = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
             let campaigns = "";
-            if (id === "ALL") { //nếu id = "ALL" thì lấy tất cả các chiến dịch
+            if (id === "ALL") {
+                //nếu id = "ALL" thì lấy tất cả các chiến dịch
                 campaigns = await db.Campaign.findAll({
                     include: [
-                        { model: db.Province, as: "province", attributes: ["name"] },
+                        {
+                            model: db.Province,
+                            as: "province",
+                            attributes: ["name"],
+                        },
+                        { model: db.CampaignDonation, as: "donations" },
                         { model: db.Partner, as: "partners" },
                     ],
                 });
-            } else if (id) { //nếu id có giá trị thì lấy chiến dịch theo id
+            } else if (id) {
+                //nếu id có giá trị thì lấy chiến dịch theo id
                 campaigns = await db.Campaign.findOne({
                     where: { id },
                     include: [
-                        { model: db.Province, as: "province", attributes: ["name"] },
+                        {
+                            model: db.Province,
+                            as: "province",
+                            attributes: ["name"],
+                        },
+                        { model: db.CampaignDonation, as: "donations" },
                         { model: db.Partner, as: "partners" },
                     ],
                 });
@@ -47,7 +59,8 @@ let createCampaign = (data) => {
             //         )
             //     );
             // }
-            if (data.donations) { //nếu có dữ liệu về khoản quyên góp thì thêm vào bảng CampaignDonation
+            if (data.donations) {
+                //nếu có dữ liệu về khoản quyên góp thì thêm vào bảng CampaignDonation
                 await Promise.all(
                     data.donations.map((donation) =>
                         db.CampaignDonation.create({
@@ -59,7 +72,7 @@ let createCampaign = (data) => {
             }
 
             // if (data.participants) { //nếu có dữ liệu về người tham gia thì thêm vào bảng Participant
-            //     await Promise.all( 
+            //     await Promise.all(
             //         data.participants.map((participant) =>
             //             db.Participant.create({
             //                 ...participant,
@@ -69,17 +82,17 @@ let createCampaign = (data) => {
             //     );
             // }
 
-            if (data.partners) { //nếu có dữ liệu về đối tác thì thêm vào bảng Partner
+            if (data.partners) {
+                //nếu có dữ liệu về đối tác thì thêm vào bảng Partner
                 await Promise.all(
                     data.partners.map((partner) =>
                         db.Partner.create({
-                            ...partner,  
+                            ...partner,
                             campaign_id: newCampaign.id,
                         })
                     )
                 );
             }
-
 
             resolve({
                 errCode: 0,
@@ -91,11 +104,15 @@ let createCampaign = (data) => {
     });
 };
 
-let updateCampaign = (data) => { //cập nhật thông tin chiến dịch
+let updateCampaign = (data) => {
+    //cập nhật thông tin chiến dịch
     return new Promise(async (resolve, reject) => {
         try {
-            let campaign = await db.Campaign.findOne({ where: { id: data.id } });
-            if (!campaign) { //nếu không tìm thấy chiến dịch thì trả về thông báo lỗi
+            let campaign = await db.Campaign.findOne({
+                where: { id: data.id },
+            });
+            if (!campaign) {
+                //nếu không tìm thấy chiến dịch thì trả về thông báo lỗi
                 resolve({
                     errCode: 1,
                     message: "Campaign not found!",

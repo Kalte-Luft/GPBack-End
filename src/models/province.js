@@ -15,11 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     image: DataTypes.TEXT,
-    total_campaigns: DataTypes.INTEGER,
-    active_campaigns: DataTypes.INTEGER,
-    completed_campaigns: DataTypes.INTEGER,
-    upcoming_campaigns: DataTypes.INTEGER,
-    total_donations: DataTypes.DECIMAL(15, 2)
+    description: DataTypes.TEXT,
   }, {
     sequelize,
     modelName: 'Province',

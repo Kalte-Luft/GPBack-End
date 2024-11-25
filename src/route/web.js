@@ -2,6 +2,7 @@ import express from 'express';
 import userController from '../controllers/userController';
 import homeController from '../controllers/homeController';
 import campaignController from '../controllers/campaignController';
+import provinceController from '../controllers/provinceController';
 let router = express.Router();
 let initWebRoutes = (app) => {
     router.get("/", homeController.getHomePage);
@@ -26,6 +27,9 @@ let initWebRoutes = (app) => {
     router.post("/api/create-campaign", campaignController.handleCreateCampaign);
     router.put("/api/update-campaign", campaignController.handleUpdateCampaign);
     router.delete("/api/delete-campaign", campaignController.handleDeleteCampaign);
+
+//api province
+    router.get("/api/get-all-provinces", provinceController.handleGetAllProvinces);
 
     return app.use("/", router);
 };

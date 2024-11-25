@@ -33,7 +33,6 @@ let handleCreateCampaign = async (req, res) => {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            console: error
         });
     }
 };
