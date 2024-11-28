@@ -3,6 +3,7 @@ import userController from '../controllers/userController';
 import homeController from '../controllers/homeController';
 import campaignController from '../controllers/campaignController';
 import provinceController from '../controllers/provinceController';
+import partnerController from '../controllers/partnerController';
 let router = express.Router();
 let initWebRoutes = (app) => {
     router.get("/", homeController.getHomePage);
@@ -30,7 +31,11 @@ let initWebRoutes = (app) => {
 
 //api province
     router.get("/api/get-all-provinces", provinceController.handleGetAllProvinces);
-
+//api partner
+    router.get("/api/get-all-partners", partnerController.handleGetAllPartners);
+    router.post("/api/create-partner", partnerController.handleCreatePartner);
+    router.put("/api/update-partner", partnerController.handleUpdatePartner);
+    router.delete("/api/delete-partner", partnerController.handleDeletePartner);
     return app.use("/", router);
 };
 module.exports = initWebRoutes;

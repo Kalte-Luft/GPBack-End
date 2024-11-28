@@ -117,7 +117,7 @@ let createNewUser = async (data) => {
                 });
                 resolve({
                     errCode: 0,
-                    errMessage: "OK",
+                    errMessage: "Create a new user successfully!",
                 });
             }
         } catch (error) {
