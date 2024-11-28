@@ -1,47 +1,43 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Donation extends Model {
-    static associate(models) {
-      // Liên kết với User
-      Donation.belongsTo(models.User, {
-        foreignKey: 'user_id',
-        as: 'User',
-      });   
-    }
-  }
-  Donation.init(
-    {
-      user_id: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-      },
-      participant_id: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-      },
-      amount: {
-        type: DataTypes.DECIMAL(20, 2),
-        allowNull: false,
-      },
-      paymentMethod: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      transactionID: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      date: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW,
-      },
-    },
-    {
-      sequelize,
-      modelName: 'Donation',
-    }
-  );
-  return Donation;
+	class Donation extends Model { }
+	Donation.init(
+		{
+			id: {
+				type: DataTypes.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
+			},
+			total_amount: {
+				type: DataTypes.FLOAT,
+				allowNull: false,
+			},
+			user_id: {
+				type: DataTypes.BIGINT,
+				allowNull: false,
+				references: {
+					model: "Users", // Tên bảng Users
+					key: "id",
+				},
+				onUpdate: "CASCADE",
+				onDelete: "CASCADE",
+			},
+			product_details: {
+				type: DataTypes.JSON,
+				allowNull: false,
+			},
+			qr_code: {
+				type: DataTypes.STRING, // Trường để lưu trữ mã QR
+				allowNull: true, // Để null nếu chưa có mã QR
+			},
+		},
+		{
+			sequelize,
+			modelName: "Donation",
+			tableName: "Donations",
+			timestamps: true, // Bật tính năng timestamps để tự động tạo createdAt và updatedAt
+		}
+	);
+	return Donation;
 };
