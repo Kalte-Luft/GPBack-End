@@ -1,50 +1,32 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-	class Product extends Model { }
-	Product.init(
-		{
-			id: {
-				type: DataTypes.INTEGER,
-				primaryKey: true,
-				autoIncrement: true,
-			},
-			name: {
-				type: DataTypes.STRING,
-				allowNull: false,
-			},
-			quantity: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-				validate: {
-					min: 0, // Đảm bảo số lượng không âm
-				},
-			},
-			price: {
-				type: DataTypes.FLOAT,
-				allowNull: false,
-				validate: {
-					min: 0, // Đảm bảo giá không âm
-				},
-			},
-			description: {
-				type: DataTypes.STRING,
-				allowNull: true,
-			},
-		},
-		{
-			sequelize,
-			modelName: "Product",
-			tableName: "Products",
-		}
-	);
-
-	Product.associate = (models) => {
-		Product.belongsToMany(models.Donation, {
-			through: "DonationProducts",
-			foreignKey: "product_id",
-		});
-	};
-
-	return Product;
+    class Product extends Model {
+        static associate(models) {
+            // Mối quan hệ với bảng CartItems
+            Product.hasMany(models.CartItem, {
+                foreignKey: "product_id",
+                as: "cartItems",
+            });
+        }
+    }
+    Product.init(
+        {
+            id: {
+                type: DataTypes.BIGINT,
+                primaryKey: true,
+                autoIncrement: true,
+            },
+            name: DataTypes.STRING,
+            description: DataTypes.TEXT,
+            price: DataTypes.DECIMAL(10, 2),
+            image: DataTypes.STRING,
+        },
+        {
+            sequelize,
+            modelName: "Product",
+            tableName: "Products",
+        }
+    );
+    return Product;
 };

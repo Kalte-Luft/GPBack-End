@@ -1,37 +1,16 @@
-import db from "../models/index";
+import db from "../models/index.js";
 
-let getProductById = (id) => {
+let getAllProducts = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let product = await db.Product.findOne({
-                where: { id },
-                attributes: ["id", "name", "quantity", "price"]
-            });
-
-            if (!product) {
-                return resolve({
-                    errCode: 1,
-                    message: "Product not found"
+            let products = "";
+            if (id === "ALL") {
+                products = await db.Product.findAll({});
+            } else if (id) {
+                products = await db.Product.findOne({
+                    where: { id }
                 });
             }
-
-            resolve({
-                errCode: 0,
-                message: "Product retrieved successfully!",
-                product
-            });
-        } catch (error) {
-            reject(error);
-        }
-    });
-};
-
-let getAllProducts = () => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let products = await db.Product.findAll({
-                attributes: ["id", "name", "quantity", "price"]
-            });
             resolve(products);
         } catch (error) {
             reject(error);
@@ -39,7 +18,7 @@ let getAllProducts = () => {
     });
 };
 
+
 module.exports = {
-    getProductById,
-    getAllProducts
+    getAllProducts: getAllProducts,
 };

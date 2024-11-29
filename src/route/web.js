@@ -4,8 +4,9 @@ import homeController from '../controllers/homeController';
 import campaignController from '../controllers/campaignController';
 import provinceController from '../controllers/provinceController';
 import partnerController from '../controllers/partnerController';
-import donationController  from '../controllers/donationController'; 
 import campaignDonationController from '../controllers/campaignDonationController';
+import productController from '../controllers/productController';
+import cartController from '../controllers/cartController';
 let router = express.Router();
 let initWebRoutes = (app) => {
     router.get("/", homeController.getHomePage);
@@ -46,18 +47,14 @@ let initWebRoutes = (app) => {
     router.put("/api/update-campaign-donation", campaignDonationController.handleUpdateCampaignDonation);
     router.delete("/api/delete-campaign-donation", campaignDonationController.handleDeleteCampaignDonation);
 
-    // api donation
-    router.get("/api/get-all-donations", donationController.handleGetAllDonations);
-    router.get("/api/get-donation-details", donationController.handleGetDonationDetails);
-    router.post("/api/create-donation", donationController.handleCreateDonation);
-    router.put("/api/update-donation", donationController.handleUpdateDonation);
-    router.delete("/api/delete-donation", donationController.handleDeleteDonation);
-
-
     //api product
-    router.get("/api/get-all-products", donationController.handleGetAllProducts);
-    router.get("/api/get-product-details", donationController.handleGetProductDetails);
+    router.get("/api/get-all-products", productController.handleGetAllProducts);
 
+    //api cart-item
+    router.get("/api/get-all-carts", cartController.handleGetAllCarts);
+    router.post("/api/create-cart", cartController.handleCreateCart);
+    router.put("/api/update-cart", cartController.handleUpdateCart);
+    router.delete("/api/delete-cart", cartController.handleDeleteCart);
     return app.use("/", router);
 
 };
