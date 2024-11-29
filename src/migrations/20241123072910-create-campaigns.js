@@ -42,6 +42,26 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
+      position: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      position_map: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      image: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      contentHTML: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+      contentMarkdown: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

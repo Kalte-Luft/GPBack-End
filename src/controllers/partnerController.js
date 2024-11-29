@@ -1,20 +1,20 @@
-import campaignService from "../services/campaignService";
+import partnerService from "../services/partnerService";
 
-let handleGetAllCampaigns = async (req, res) => {
+let handleGetAllPartners = async (req, res) => {
     try {
         let id = req.query.id; // Lấy id từ query params
         if (!id) {
             return res.status(400).json({
                 errCode: 1,
                 message: "Missing required parameter!",
-                campaigns: [] 
+                partners: []
             });
         }
-        let campaigns = await campaignService.getAllCampaigns(id);
+        let partners = await partnerService.getAllPartners(id);
         return res.status(200).json({
             errCode: 0,
             message: "OK",
-            campaigns 
+            partners
         });
     } catch (error) {
         return res.status(500).json({
@@ -25,21 +25,9 @@ let handleGetAllCampaigns = async (req, res) => {
     }
 };
 
-let handleCreateCampaign = async (req, res) => {
+let handleCreatePartner = async (req, res) => {
     try {
-        let message = await campaignService.createCampaign(req.body);
-        return res.status(200).json(message);
-    } catch (error) {
-        return res.status(500).json({
-            errCode: 1,
-            message: "Error from server",
-        });
-    }
-};
-
-let handleUpdateCampaign = async (req, res) => {
-    try {
-        let message = await campaignService.updateCampaign(req.body);
+        let message = await partnerService.createPartner(req.body);
         return res.status(200).json(message);
     } catch (error) {
         return res.status(500).json({
@@ -50,7 +38,20 @@ let handleUpdateCampaign = async (req, res) => {
     }
 };
 
-let handleDeleteCampaign = async (req, res) => {
+let handleUpdatePartner = async (req, res) => {
+    try {
+        let message = await partnerService.updatePartner(req.body);
+        return res.status(200).json(message);
+    } catch (error) {
+        return res.status(500).json({
+            errCode: 1,
+            message: "Error from server",
+            console: error
+        });
+    }
+};
+
+let handleDeletePartner = async (req, res) => {
     try {
         let id = req.body.id;
         if (!id) {
@@ -59,19 +60,20 @@ let handleDeleteCampaign = async (req, res) => {
                 message: "Missing required parameter!",
             });
         }
-        let message = await campaignService.deleteCampaign(id);
+        let message = await partnerService.deletePartner(id);
         return res.status(200).json(message);
     } catch (error) {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
+            console: error
         });
     }
 };
 
 module.exports = {
-    handleGetAllCampaigns,
-    handleCreateCampaign,
-    handleUpdateCampaign,
-    handleDeleteCampaign,
+    handleGetAllPartners,
+    handleCreatePartner,
+    handleUpdatePartner,
+    handleDeletePartner,
 };

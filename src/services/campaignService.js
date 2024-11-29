@@ -49,16 +49,13 @@ let createCampaign = (data) => {
                 end_date: data.end_date,
                 target_amount: data.target_amount,
                 province_id: data.province_id,
+                position: data.position,
+                position_map: data.position_map,
+                image: data.image,
+                contentHTML: data.contentHTML,
+                contentMarkdown: data.contentMarkdown,
             });
 
-            // //Thêm các hoạt động, người tham gia, đối tác nếu có
-            // if (data.activities) { //nếu có dữ liệu về hoạt động thì thêm vào bảng Activity
-            //     await Promise.all(
-            //         data.activities.map((activity) =>
-            //             db.Activity.create({ ...activity, campaign_id: newCampaign.id })
-            //         )
-            //     );
-            // }
             if (data.donations) {
                 //nếu có dữ liệu về khoản quyên góp thì thêm vào bảng CampaignDonation
                 await Promise.all(
@@ -70,17 +67,6 @@ let createCampaign = (data) => {
                     )
                 );
             }
-
-            // if (data.participants) { //nếu có dữ liệu về người tham gia thì thêm vào bảng Participant
-            //     await Promise.all(
-            //         data.participants.map((participant) =>
-            //             db.Participant.create({
-            //                 ...participant,
-            //                 campaign_id: newCampaign.id,
-            //             })
-            //         )
-            //     );
-            // }
 
             if (data.partners) {
                 //nếu có dữ liệu về đối tác thì thêm vào bảng Partner
@@ -126,6 +112,11 @@ let updateCampaign = (data) => {
                 end_date: data.end_date,
                 target_amount: data.target_amount,
                 province_id: data.province_id,
+                position: data.position,
+                position_map: data.position_map,
+                image: data.image,
+                contentHTML: data.contentHTML,
+                contentMarkdown: data.contentMarkdown,
             });
 
             resolve({
