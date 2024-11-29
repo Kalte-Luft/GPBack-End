@@ -26,6 +26,10 @@ module.exports = {
         type: Sequelize.JSON,
         allowNull: false,
       },
+      date_created: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
       qr_code: {
         type: Sequelize.STRING,
         allowNull: true,
