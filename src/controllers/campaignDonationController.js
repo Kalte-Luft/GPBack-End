@@ -1,20 +1,20 @@
-import campaignService from "../services/campaignService";
+import campaignDonationService from "../services/campaignDonationService";
 
-let handleGetAllCampaigns = async (req, res) => {
+let handleGetAllCampaignDonations = async (req, res) => {
     try {
         let id = req.query.id; // Lấy id từ query params
         if (!id) {
             return res.status(400).json({
                 errCode: 1,
                 message: "Missing required parameter!",
-                campaigns: [] 
+                campaignDonations: []
             });
         }
-        let campaigns = await campaignService.getAllCampaigns(id);
+        let campaignDonations = await campaignDonationService.getAllCampaignDonations(id);
         return res.status(200).json({
             errCode: 0,
             message: "OK",
-            campaigns 
+            campaignDonations
         });
     } catch (error) {
         return res.status(500).json({
@@ -25,9 +25,9 @@ let handleGetAllCampaigns = async (req, res) => {
     }
 };
 
-let handleCreateCampaign = async (req, res) => {
+let handleCreateCampaignDonation = async (req, res) => {
     try {
-        let message = await campaignService.createCampaign(req.body);
+        let message = await campaignDonationService.createCampaignDonation(req.body);
         return res.status(200).json(message);
     } catch (error) {
         return res.status(500).json({
@@ -37,9 +37,9 @@ let handleCreateCampaign = async (req, res) => {
     }
 };
 
-let handleUpdateCampaign = async (req, res) => {
+let handleUpdateCampaignDonation = async (req, res) => {
     try {
-        let message = await campaignService.updateCampaign(req.body);
+        let message = await campaignDonationService.updateCampaignDonation(req.body);
         return res.status(200).json(message);
     } catch (error) {
         return res.status(500).json({
@@ -50,7 +50,7 @@ let handleUpdateCampaign = async (req, res) => {
     }
 };
 
-let handleDeleteCampaign = async (req, res) => {
+let handleDeleteCampaignDonation = async (req, res) => {
     try {
         let id = req.body.id;
         if (!id) {
@@ -59,7 +59,7 @@ let handleDeleteCampaign = async (req, res) => {
                 message: "Missing required parameter!",
             });
         }
-        let message = await campaignService.deleteCampaign(id);
+        let message = await campaignDonationService.deleteCampaignDonation(id);
         return res.status(200).json(message);
     } catch (error) {
         return res.status(500).json({
@@ -70,8 +70,8 @@ let handleDeleteCampaign = async (req, res) => {
 };
 
 module.exports = {
-    handleGetAllCampaigns,
-    handleCreateCampaign,
-    handleUpdateCampaign,
-    handleDeleteCampaign,
+    handleGetAllCampaignDonations,
+    handleCreateCampaignDonation,
+    handleUpdateCampaignDonation,
+    handleDeleteCampaignDonation,
 };
