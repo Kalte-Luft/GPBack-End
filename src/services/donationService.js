@@ -10,7 +10,7 @@ let getAllDonations = (id) => {
 						{
 							model: db.User,
 							as: "user",
-							attributes: ["id"],
+							attributes: ["name"],
 						},
 
 					],
@@ -22,7 +22,7 @@ let getAllDonations = (id) => {
 						{
 							model: db.User,
 							as: "user",
-							attributes: ["id", "name"],
+							attributes: [ "name"],
 						},
 
 					],
