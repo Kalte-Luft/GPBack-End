@@ -1,7 +1,9 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-	class Donation extends Model { }
+	class Donation extends Model { 
+		
+	}
 	Donation.init(
 		{
 			id: {
@@ -25,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			product_details: {
 				type: DataTypes.JSON,
+				allowNull: false,
+			},
+			date_created: {
+				type: DataTypes.DATE,
 				allowNull: false,
 			},
 			qr_code: {
