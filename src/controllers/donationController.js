@@ -1,7 +1,6 @@
 import donationService from "../services/donationService";
 import productService from "../services/productService";
 
-
 let handleGetAllProducts = async (req, res) => {
     try {
         let products = await productService.getAllProducts();
@@ -14,7 +13,7 @@ let handleGetAllProducts = async (req, res) => {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            error
+            error: error.message
         });
     }
 };
@@ -28,23 +27,16 @@ let handleGetProductDetails = async (req, res) => {
                 message: "Missing required parameter: id"
             });
         }
-        let product = await productService.getProductById(id);
-        if (!product) {
-            return res.status(404).json({
-                errCode: 1,
-                message: "Product not found"
-            });
+        let result = await productService.getProductById(id);
+        if (result.errCode !== 0) {
+            return res.status(404).json(result);
         }
-        return res.status(200).json({
-            errCode: 0,
-            message: "OK",
-            product
-        });
+        return res.status(200).json(result);
     } catch (error) {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            error
+            error: error.message
         });
     }
 };
@@ -69,7 +61,7 @@ let handleGetAllDonations = async (req, res) => {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            error
+            error: error.message
         });
     }
 };
@@ -87,7 +79,7 @@ let handleCreateDonation = async (req, res) => {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-			error
+            error: error.message
         });
     }
 };
@@ -117,7 +109,7 @@ let handleGetDonationDetails = async (req, res) => {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            error
+            error: error.message
         });
     }
 };
@@ -135,7 +127,7 @@ let handleUpdateDonation = async (req, res) => {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            error
+            error: error.message
         });
     }
 };
@@ -146,7 +138,7 @@ let handleDeleteDonation = async (req, res) => {
         if (!id) {
             return res.status(400).json({
                 errCode: 1,
-                message: "Missing required parameter: id",
+                message: "Missing required parameter: id"
             });
         }
         let message = await donationService.deleteDonation(id);
@@ -159,17 +151,17 @@ let handleDeleteDonation = async (req, res) => {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            error
+            error: error.message
         });
     }
 };
 
 module.exports = {
-	handleGetAllProducts,
-	handleGetProductDetails,
+    handleGetAllProducts,
+    handleGetProductDetails,
     handleGetAllDonations,
     handleCreateDonation,
     handleGetDonationDetails,
     handleUpdateDonation,
-    handleDeleteDonation,
+    handleDeleteDonation
 };
