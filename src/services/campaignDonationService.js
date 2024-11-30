@@ -46,7 +46,7 @@ let getAllCampaignDonations = (id) => {
 let createCampaignDonation = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let newCampaignDonation = await db.CampaignDonation.create({
+            await db.CampaignDonation.create({
                 user_id: data.user_id,
                 campaign_id: data.campaign_id,
                 amount: data.amount,

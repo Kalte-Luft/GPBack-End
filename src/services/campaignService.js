@@ -17,6 +17,12 @@ let getAllCampaigns = (id) => {
                         { model: db.Partner, as: "partners" },
                     ],
                 });
+                //Tính tổng số tiền quyên góp và cập nhật vào mỗi chiến dịch
+                campaigns = campaigns.map(campaign => {
+                    let totalAmount = campaign.donations.reduce((sum, donation) => sum + parseFloat(donation.amount), 0);
+                    campaign.current_amount = totalAmount;
+                    return campaign;
+                });
             } else if (id) {
                 //nếu id có giá trị thì lấy chiến dịch theo id
                 campaigns = await db.Campaign.findOne({
