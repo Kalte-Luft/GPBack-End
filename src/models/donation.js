@@ -8,6 +8,14 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: "user_id",
                 as: "user",
             });
+            Donation.belongsTo(models.CartItem, {
+                foreignKey: "cartItem_id",
+                as: "cartItem",
+            });
+            Donation.belongsTo(models.Product, {
+                foreignKey: "product_id",
+                as: "product",
+            });
         }
     }
     Donation.init(
@@ -18,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
                 autoIncrement: true,
             },
             user_id: DataTypes.BIGINT,
+            cartItem_id: DataTypes.BIGINT,
+            product_id: DataTypes.BIGINT,
             total_amount: DataTypes.DECIMAL(20, 2)
         },
         {

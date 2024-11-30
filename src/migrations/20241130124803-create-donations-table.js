@@ -18,6 +18,26 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
+      product_id: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
+        references: {
+          model: 'Products',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      },
+      cartItem_id: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
+        references: {
+          model: 'CartItems',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      },
       total_amount: {
         type: Sequelize.DECIMAL(20, 2),
         allowNull: false

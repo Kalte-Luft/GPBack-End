@@ -12,6 +12,16 @@ let getAllDonations = (id) => {
 							as: "user",
 							attributes: ["name"],
 						},
+						{
+							model: db.Product,
+							as: "product",
+							attributes: ["name"],
+						},
+						{
+							model: db.CartItem,
+							as: "cartItem",
+							attributes: ["status", "purchased_at"],
+						}
 
 					],
 				});
@@ -22,7 +32,7 @@ let getAllDonations = (id) => {
 						{
 							model: db.User,
 							as: "user",
-							attributes: [ "name"],
+							attributes: ["name"],
 						},
 
 					],
@@ -39,6 +49,8 @@ let createDonation = (data) => {
 		try {
 			await db.Donation.create({
 				user_id: data.user_id,
+				product_id: data.product_id,
+				cartItem_id: data.cartItem_id,
 				total_amount: data.total_amount,
 			});
 			resolve({
