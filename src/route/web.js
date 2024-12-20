@@ -8,7 +8,6 @@ import campaignDonationController from '../controllers/campaignDonationControlle
 import productController from '../controllers/productController';
 import cartController from '../controllers/cartController';
 import donationController from '../controllers/donationController';
-
 let router = express.Router();
 let initWebRoutes = (app) => {
     router.get("/", homeController.getHomePage);
@@ -33,10 +32,11 @@ let initWebRoutes = (app) => {
     router.post("/api/create-campaign", campaignController.handleCreateCampaign);
     router.put("/api/update-campaign", campaignController.handleUpdateCampaign);
     router.delete("/api/delete-campaign", campaignController.handleDeleteCampaign);
-
+    router.get("/api/get-campaigns-by-province", campaignController.handleGetCampaignsByProvince);
+    
     //api province
     router.get("/api/get-all-provinces", provinceController.handleGetAllProvinces);
-
+    router.get("/api/get-province-overview", provinceController.handleGetProvinceOverview);
     //api partner
     router.get("/api/get-all-partners", partnerController.handleGetAllPartners);
     router.post("/api/create-partner", partnerController.handleCreatePartner);

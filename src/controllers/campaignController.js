@@ -69,9 +69,35 @@ let handleDeleteCampaign = async (req, res) => {
     }
 };
 
+let handleGetCampaignsByProvince = async (req, res) => {
+    try {
+        let id = req.query.id; // Lấy id từ query params
+        if (!id) {
+            return res.status(400).json({
+                errCode: 1,
+                message: "Missing required parameter!",
+                campaigns: [] 
+            });
+        }
+        let campaigns = await campaignService.getCampaignByProvinceId(id);
+        return res.status(200).json({
+            errCode: 0,
+            message: "OK",
+            campaigns 
+        });
+    } catch (error) {
+        return res.status(500).json({
+            errCode: 1,
+            message: "Error from server",
+            console: error
+        });
+    }
+}
+
 module.exports = {
     handleGetAllCampaigns,
     handleCreateCampaign,
     handleUpdateCampaign,
     handleDeleteCampaign,
+    handleGetCampaignsByProvince,
 };

@@ -18,11 +18,19 @@ let getAllCampaigns = (id) => {
                     ],
                 });
                 //Tính tổng số tiền quyên góp và cập nhật vào mỗi chiến dịch
-                campaigns = campaigns.map(campaign => {
-                    let totalAmount = campaign.donations.reduce((sum, donation) => sum + parseFloat(donation.amount), 0);
-                    campaign.current_amount = totalAmount;
-                    return campaign;
-                });
+                await Promise.all(
+                    campaigns.map(async (campaign) => {
+                        let totalAmount = campaign.donations.reduce(
+                            (sum, donation) => sum + parseFloat(donation.amount),
+                            0
+                        );
+
+                        // Cập nhật `current_amount` vào database
+                        await campaign.update({ current_amount: totalAmount });
+
+                        return { ...campaign.toJSON(), current_amount: totalAmount };
+                    })
+                );
             } else if (id) {
                 //nếu id có giá trị thì lấy chiến dịch theo id
                 campaigns = await db.Campaign.findOne({
@@ -37,6 +45,15 @@ let getAllCampaigns = (id) => {
                         { model: db.Partner, as: "partners" },
                     ],
                 });
+                if (campaigns) {
+                    let totalAmount = campaigns.donations.reduce(
+                        (sum, donation) => sum + parseFloat(donation.amount),
+                        0
+                    );
+
+                    // Cập nhật `current_amount` vào database
+                    await campaigns.update({ current_amount: totalAmount });
+                }
             }
             resolve(campaigns);
         } catch (error) {
@@ -44,6 +61,24 @@ let getAllCampaigns = (id) => {
         }
     });
 };
+
+let getCampaignByProvinceId = (provinceId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let campaigns = "";
+            if (provinceId) {
+                //nếu id có giá trị thì lấy chiến dịch theo id
+                campaigns = await db.Campaign.findAll({
+                    where: { province_id: provinceId },
+                    attributes: ["id", "title", "description", "image", "status"],
+                });
+            }
+            resolve(campaigns);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
 
 let createCampaign = (data) => {
     return new Promise(async (resolve, reject) => {
@@ -53,6 +88,7 @@ let createCampaign = (data) => {
                 description: data.description,
                 start_date: data.start_date,
                 end_date: data.end_date,
+                status: data.status,
                 target_amount: data.target_amount,
                 province_id: data.province_id,
                 position: data.position,
@@ -116,6 +152,7 @@ let updateCampaign = (data) => {
                 description: data.description,
                 start_date: data.start_date,
                 end_date: data.end_date,
+                status: data.status,
                 target_amount: data.target_amount,
                 province_id: data.province_id,
                 position: data.position,
@@ -160,6 +197,7 @@ let deleteCampaign = (id) => {
 
 module.exports = {
     getAllCampaigns,
+    getCampaignByProvinceId,
     createCampaign,
     updateCampaign,
     deleteCampaign,

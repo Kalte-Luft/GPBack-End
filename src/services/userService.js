@@ -1,7 +1,5 @@
-import { raw } from "body-parser";
 import db from "../models/index.js";
 import bcrypt from "bcryptjs";
-import { name } from "ejs";
 let handleUserLogin = async (email, password) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -10,7 +8,7 @@ let handleUserLogin = async (email, password) => {
             if (isExist) {
                 //user exist
                 let user = await db.User.findOne({
-                    attributes: ["email", "role", "password", "name"],
+                    attributes: ["id", "email", "role", "password", "name"],
                     where: { email: email },
                 });
                 if (user) {
