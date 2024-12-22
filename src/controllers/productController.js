@@ -26,6 +26,34 @@ let handleGetAllProducts = async (req, res) => {
 };
 
 
+let handleCreateProduct = async (req, res) => {
+    try {
+        let message = await partnerService.createPartner(req.body);
+        return res.status(200).json(message);
+    } catch (error) {
+        return res.status(500).json({
+            errCode: 1,
+            message: "Error from server",
+            console: error
+        });
+    }
+};
+
+let handleUpdateProduct = async (req, res) => {
+    try {
+        let message = await productService.updateProduct(req.body);
+        return res.status(200).json(message);
+    } catch (error) {
+        return res.status(500).json({
+            errCode: 1,
+            message: "Error from server",
+            console: error
+        });
+    }
+};
+
 module.exports = {
-    handleGetAllProducts
+    handleGetAllProducts,
+    handleUpdateProduct,
+    handleCreateProduct
 };

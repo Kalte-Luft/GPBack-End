@@ -33,7 +33,7 @@ let initWebRoutes = (app) => {
     router.put("/api/update-campaign", campaignController.handleUpdateCampaign);
     router.delete("/api/delete-campaign", campaignController.handleDeleteCampaign);
     router.get("/api/get-campaigns-by-province", campaignController.handleGetCampaignsByProvince);
-    
+
     //api province
     router.get("/api/get-all-provinces", provinceController.handleGetAllProvinces);
     router.get("/api/get-province-overview", provinceController.handleGetProvinceOverview);
@@ -51,7 +51,8 @@ let initWebRoutes = (app) => {
 
     //api product
     router.get("/api/get-all-products", productController.handleGetAllProducts);
-
+    router.post("/api/create-product", productController.handleCreateProduct);
+    router.put("/api/update-product", productController.handleUpdateProduct);
     //api cart-item
     router.get("/api/get-all-carts", cartController.handleGetAllCarts);
     router.post("/api/create-cart", cartController.handleCreateCart);
