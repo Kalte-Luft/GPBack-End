@@ -53,6 +53,7 @@ let initWebRoutes = (app) => {
     router.get("/api/get-all-products", productController.handleGetAllProducts);
     router.post("/api/create-product", productController.handleCreateProduct);
     router.put("/api/update-product", productController.handleUpdateProduct);
+    router.delete("/api/delete-product", productController.handleDeleteProduct);
     //api cart-item
     router.get("/api/get-all-carts", cartController.handleGetAllCarts);
     router.post("/api/create-cart", cartController.handleCreateCart);

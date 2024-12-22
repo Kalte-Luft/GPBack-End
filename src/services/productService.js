@@ -22,7 +22,7 @@ let getAllProducts = (id) => {
 let createProduct = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await db.Product.create({           
+            await db.Product.create({
                 name: data.name,
                 description: data.description,
                 price: data.price,
@@ -66,8 +66,35 @@ let updateProduct = (data) => {
         }
     });
 };
+
+let deleteProduct = async (productId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let product = await db.Product.findOne({
+                where: { id: productId },
+            });
+            if (!product) {
+                resolve({
+                    errCode: 1,
+                    errMessage: "The user isn't exist!",
+                });
+            }
+            await db.Product.destroy({
+                where: { id: productId },
+            });
+            resolve({
+                errCode: 0,
+                errMessage: "The product is deleted!",
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 module.exports = {
     getAllProducts: getAllProducts,
     createProduct: createProduct,
     updateProduct: updateProduct,
+    deleteProduct: deleteProduct
 };

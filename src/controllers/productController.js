@@ -28,7 +28,7 @@ let handleGetAllProducts = async (req, res) => {
 
 let handleCreateProduct = async (req, res) => {
     try {
-        let message = await partnerService.createPartner(req.body);
+        let message = await productService.createProduct(req.body);
         return res.status(200).json(message);
     } catch (error) {
         return res.status(500).json({
@@ -52,8 +52,20 @@ let handleUpdateProduct = async (req, res) => {
     }
 };
 
+let handleDeleteProduct = async (req, res) => {
+    if (!req.body.id) {
+        return res.status(200).json({
+            errCode: 1,
+            message: "Missing required parameter!",
+        });
+    }
+    let message = await productService.deleteProduct(req.body.id);
+    return res.status(200).json(message);
+}
+
 module.exports = {
     handleGetAllProducts,
     handleUpdateProduct,
-    handleCreateProduct
+    handleCreateProduct,
+    handleDeleteProduct
 };
