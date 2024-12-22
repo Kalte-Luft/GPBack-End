@@ -48,7 +48,7 @@ let initWebRoutes = (app) => {
     router.post("/api/create-campaign-donation", campaignDonationController.handleCreateCampaignDonation);
     router.put("/api/update-campaign-donation", campaignDonationController.handleUpdateCampaignDonation);
     router.delete("/api/delete-campaign-donation", campaignDonationController.handleDeleteCampaignDonation);
-
+    router.get("/api/get-campaign-donations-by-user", campaignDonationController.handleGetCampaignDonationsByUser);
     //api product
     router.get("/api/get-all-products", productController.handleGetAllProducts);
     router.post("/api/create-product", productController.handleCreateProduct);
