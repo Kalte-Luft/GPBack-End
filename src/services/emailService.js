@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 });
 
     
-function sendEmail  () {
+function sendEmail() {
     transporter.sendMail({
         from: '"GreenPaws Organization 🐾"<nghianb.23itb@vku.udn.vn>',
         //gửi đến khanhbq.23itb@vku.udn.vn
