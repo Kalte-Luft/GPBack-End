@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
             product_id: DataTypes.BIGINT,
             quantity: DataTypes.INTEGER,
             status: DataTypes.ENUM("pending", "purchased"),
-            purchased_at: DataTypes.DATE,
+            total: DataTypes.DECIMAL(20, 2),
         },
         {
             sequelize,

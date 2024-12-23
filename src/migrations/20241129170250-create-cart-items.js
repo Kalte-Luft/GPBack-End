@@ -38,9 +38,9 @@ module.exports = {
         allowNull: false,
         defaultValue: 'pending'
       },
-      purchased_at: {
-        type: Sequelize.DATE,
-        allowNull: true // Chỉ có giá trị khi status là 'purchased'
+      total: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
