@@ -59,6 +59,7 @@ let initWebRoutes = (app) => {
     router.post("/api/create-cart", cartController.handleCreateCart);
     router.put("/api/update-cart", cartController.handleUpdateCart);
     router.delete("/api/delete-cart", cartController.handleDeleteCart);
+    router.get("/api/get-cart-by-user", cartController.handleGetCartByUser);
 
     //api donation
     router.get("/api/get-all-donations", donationController.handleGetAllDonations);
