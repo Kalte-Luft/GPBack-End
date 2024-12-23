@@ -8,10 +8,12 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: "user_id",
                 as: "user",
             });
+            // Mối quan hệ với bảng CartItems
             Donation.belongsTo(models.CartItem, {
                 foreignKey: "cartItem_id",
                 as: "cartItem",
             });
+            // Mối quan hệ với bảng Products
             Donation.belongsTo(models.Product, {
                 foreignKey: "product_id",
                 as: "product",
@@ -28,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
             user_id: DataTypes.BIGINT,
             cartItem_id: DataTypes.BIGINT,
             product_id: DataTypes.BIGINT,
-            total_amount: DataTypes.DECIMAL(20, 2)
+            total_amount: DataTypes.DECIMAL(20, 2) // Tổng số tiền của CartItem
         },
         {
             sequelize,
@@ -36,5 +38,6 @@ module.exports = (sequelize, DataTypes) => {
             tableName: "Donations",
         }
     );
+
     return Donation;
 };
