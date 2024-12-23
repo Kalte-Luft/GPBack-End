@@ -15,7 +15,7 @@ let getAllCarts = (id) => {
                         {
                             model: db.Product,
                             as: "product",
-                            attributes: ["name"],
+                            attributes: ["name","image"],
                         },
                     ],
                 });
@@ -42,27 +42,6 @@ let getAllCarts = (id) => {
         }
     });
 };
-
-let getAllCartsByUser = (userId) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let carts = await db.CartItem.findAll({
-                where: { user_id: userId },
-                attributes: ["id", "quantity", "product_id", "user_id","total"],
-                include: [
-                    {
-                        model: db.Product,
-                        as: "product",
-                        attributes: ["name","image"],
-                    },
-                ],
-            });
-            resolve(carts);
-        } catch (error) {
-            reject(error);
-        }
-    });
-}
 
 let createCart = (data) => {
     return new Promise(async (resolve, reject) => {
@@ -172,5 +151,4 @@ module.exports = {
     createCart: createCart,
     deleteCart: deleteCart,
     updateCart: updateCart,
-    getAllCartsByUser: getAllCartsByUser,
 };

@@ -33,7 +33,7 @@ let handleGetAllUsers = async (req, res) => {
         errCode: 0,
         message: "OK",
         users
-    });    
+    });
     
 }
 let handleCreateNewUser = async (req, res) => {
