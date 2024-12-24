@@ -26,15 +26,16 @@ let handleGetAllCarts = async (req, res) => {
 };
 let handleGetCartByUser = async (req, res) => {
     try {
-        let id = req.query.id; // Lấy userId từ query params
-        if (!id) {
+        let id = req.query.id;
+        let  status = req.query.status;
+        if (!id && !status) {
             return res.status(400).json({
                 errCode: 1,
                 message: "Missing required parameter!",
                 carts: []
             });
         }
-        let carts = await cartService.getAllCartsByUser(id);
+        let carts = await cartService.getAllCartsByUser(id, status);
         return res.status(200).json({
             errCode: 0,
             message: "OK",

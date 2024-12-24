@@ -43,11 +43,11 @@ let getAllCarts = (id) => {
     });
 };
 
-let getAllCartsByUser = (userId) => {
+let getAllCartsByUser = (userId, status) => {
     return new Promise(async (resolve, reject) => {
         try {
             let carts = await db.CartItem.findAll({
-                where: { user_id: userId },
+                where: { user_id: userId, status: status },
                 attributes: ["id", "quantity", "product_id", "user_id","total"],
                 include: [
                     {

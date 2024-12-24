@@ -66,6 +66,7 @@ let initWebRoutes = (app) => {
     router.post("/api/create-donation", donationController.handleCreateDonation);
     router.put("/api/update-donation", donationController.handleUpdateDonation);
     router.delete("/api/delete-donation", donationController.handleDeleteDonation);
+    router.get("/api/get-donation-by-user", donationController.handleGetDonationByUser);
 
     return app.use("/", router);
 
