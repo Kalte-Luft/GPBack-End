@@ -1,5 +1,5 @@
 import db from "../models/index.js";
-
+import emailService from "./emailService.js";
 let getAllDonations = (id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
@@ -36,13 +36,23 @@ let getAllDonations = (id) => {
 let createDonation = (data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-
-			// Tạo mới Donation với thông tin từ CartItem và Product
+			let user = await db.User.findOne({
+				where: { id: data.user_id },
+			});
 			await db.Donation.create({
 				user_id: data.user_id,
-				total_amount: data.total_amount, // Lưu tổng số tiền (cộng thêm 10%)
+				total_amount: data.total_amount, 
 			});
-
+			let dataEmail = {
+				email: user.email,
+				name: user.name,
+				total_amount: data.total_amount,
+			};
+            try {
+                await emailService.sendThankYouEmail(dataEmail);
+            } catch (error) {
+                console.error("Failed to send thank you email:", error.message);
+            }
 			resolve({
 				errCode: 0,
 				errMessage: "Create a new donation successfully!",
