@@ -25,6 +25,31 @@ let handleGetAllPartners = async (req, res) => {
     }
 };
 
+let handleGetPartnersByCampaign = async (req, res) => {
+    try {
+        let id = req.query.id;
+        if (!id) {
+            return res.status(400).json({
+                errCode: 1,
+                message: "Missing required parameter!",
+                partners: []
+            });
+        }
+        let partners = await partnerService.getPartnersByCampaign(id);
+        return res.status(200).json({
+            errCode: 0,
+            message: "OK",
+            partners
+        });
+    } catch (error) {
+        return res.status(500).json({
+            errCode: 1,
+            message: "Error from server",
+            console: error
+        });
+    }
+};
+
 let handleCreatePartner = async (req, res) => {
     try {
         let message = await partnerService.createPartner(req.body);
@@ -73,6 +98,7 @@ let handleDeletePartner = async (req, res) => {
 
 module.exports = {
     handleGetAllPartners,
+    handleGetPartnersByCampaign,
     handleCreatePartner,
     handleUpdatePartner,
     handleDeletePartner,

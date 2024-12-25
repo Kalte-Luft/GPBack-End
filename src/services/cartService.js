@@ -15,7 +15,7 @@ let getAllCarts = (id) => {
                         {
                             model: db.Product,
                             as: "product",
-                            attributes: ["name","image"],
+                            attributes: ["name", "image"],
                         },
                     ],
                 });
@@ -48,12 +48,19 @@ let getAllCartsByUser = (userId, status) => {
         try {
             let carts = await db.CartItem.findAll({
                 where: { user_id: userId, status: status },
-                attributes: ["id", "quantity", "product_id", "user_id","total"],
+                attributes: [
+                    "id",
+                    "quantity",
+                    "product_id",
+                    "user_id",
+                    "total",
+                    "createdAt",
+                ],
                 include: [
                     {
                         model: db.Product,
                         as: "product",
-                        attributes: ["name","image"],
+                        attributes: ["name", "image"],
                     },
                 ],
             });
@@ -62,20 +69,20 @@ let getAllCartsByUser = (userId, status) => {
             reject(error);
         }
     });
-}
+};
 
 let createCart = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             // Lấy thông tin giá sản phẩm từ bảng Product
             let product = await db.Product.findOne({
-                where: { id: data.product_id }
+                where: { id: data.product_id },
             });
 
             if (!product) {
                 return resolve({
                     errCode: 1,
-                    errMessage: "Product not found!"
+                    errMessage: "Product not found!",
                 });
             }
 
@@ -139,12 +146,12 @@ let updateCart = (data) => {
 
             // Lấy lại giá sản phẩm sau khi cập nhật
             let product = await db.Product.findOne({
-                where: { id: data.product_id }
+                where: { id: data.product_id },
             });
             if (!product) {
                 return resolve({
                     errCode: 1,
-                    errMessage: "Product not found!"
+                    errMessage: "Product not found!",
                 });
             }
 

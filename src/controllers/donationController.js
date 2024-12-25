@@ -7,20 +7,20 @@ let handleGetAllDonations = async (req, res) => {
             return res.status(400).json({
                 errCode: 1,
                 message: "Missing required parameter!",
-                Donations: []
+                Donations: [],
             });
         }
         let donations = await donationService.getAllDonations(id);
         return res.status(200).json({
             errCode: 0,
             message: "OK",
-            donations
+            donations,
         });
     } catch (error) {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            console: error
+            console: error,
         });
     }
 };
@@ -33,7 +33,7 @@ let handleCreateDonation = async (req, res) => {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            console: error
+            console: error,
         });
     }
 };
@@ -46,7 +46,7 @@ let handleUpdateDonation = async (req, res) => {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            console: error
+            console: error,
         });
     }
 };
@@ -66,7 +66,7 @@ let handleDeleteDonation = async (req, res) => {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            console: error
+            console: error,
         });
     }
 };
@@ -78,24 +78,39 @@ let handleGetDonationByUser = async (req, res) => {
             return res.status(400).json({
                 errCode: 1,
                 message: "Missing required parameter!",
-                donations: []
+                donations: [],
             });
         }
         let donations = await donationService.getAllDonationsByUser(id);
         return res.status(200).json({
             errCode: 0,
             message: "OK",
-            donations
+            donations,
         });
     } catch (error) {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            console: error
+            console: error,
         });
     }
-}
-
+};
+let handleGetDonationsCountForCurrentWeek = async (req, res) => {
+    try {
+        let count = await donationService.getDonationsCountForCurrentWeek();
+        return res.status(200).json({
+            errCode: 0,
+            message: "OK",
+            count,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            errCode: 1,
+            message: "Error from server",
+            console: error,
+        });
+    }
+};
 
 module.exports = {
     handleGetAllDonations,
@@ -103,4 +118,5 @@ module.exports = {
     handleUpdateDonation,
     handleDeleteDonation,
     handleGetDonationByUser,
+    handleGetDonationsCountForCurrentWeek,
 };

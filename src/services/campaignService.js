@@ -1,3 +1,4 @@
+import e from "cors";
 import db from "../models/index";
 
 let getAllCampaigns = (id) => {
@@ -18,6 +19,7 @@ let getAllCampaigns = (id) => {
                     ],
                 });
                 //Tính tổng số tiền quyên góp và cập nhật vào mỗi chiến dịch
+                const today = new Date();
                 await Promise.all(
                     campaigns.map(async (campaign) => {
                         let totalAmount = campaign.donations.reduce(
@@ -28,7 +30,19 @@ let getAllCampaigns = (id) => {
                         // Cập nhật `current_amount` vào database
                         await campaign.update({ current_amount: totalAmount });
 
-                        return { ...campaign.toJSON(), current_amount: totalAmount };
+                        let status = "";
+                        if (today < new Date(campaign.start_date)) {
+                            status = "upcoming";
+                        } else if (
+                            today >= new Date(campaign.start_date) &&
+                            today <= new Date(campaign.end_date)
+                        ) {
+                            status = "ongoing";
+                        } else {
+                            status = "ended";
+                        }
+                        await campaign.update({ status });
+                        return { ...campaign.toJSON(), current_amount: totalAmount, status };
                     })
                 );
             } else if (id) {
@@ -53,6 +67,20 @@ let getAllCampaigns = (id) => {
 
                     // Cập nhật `current_amount` vào database
                     await campaigns.update({ current_amount: totalAmount });
+
+                    let status = "";
+                    const today = new Date();
+                    if (today < new Date(campaigns.start_date)) {
+                        status = "upcoming";
+                    }else if (
+                        today >= new Date(campaigns.start_date) &&
+                        today <= new Date(campaigns.end_date)
+                    ) {
+                        status = "ongoing";
+                    } else {
+                        status = "ended";
+                    }
+                    await campaigns.update({ status });
                 }
             }
             resolve(campaigns);
@@ -79,6 +107,23 @@ let getCampaignByProvinceId = (provinceId) => {
         }
     });
 }
+let getCampaignStatusCounts = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let ongoingCount = await db.Campaign.count({ where: { status: 'ongoing' } });
+            let upcomingCount = await db.Campaign.count({ where: { status: 'upcoming' } });
+            let endedCount = await db.Campaign.count({ where: { status: 'ended' } });
+
+            resolve([
+                { value: ongoingCount, name: 'Ongoing' },
+                { value: upcomingCount, name: 'Upcoming' },
+                { value: endedCount, name: 'Ended' }
+            ]);
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
 
 let createCampaign = (data) => {
     return new Promise(async (resolve, reject) => {
@@ -198,6 +243,7 @@ let deleteCampaign = (id) => {
 module.exports = {
     getAllCampaigns,
     getCampaignByProvinceId,
+    getCampaignStatusCounts,
     createCampaign,
     updateCampaign,
     deleteCampaign,

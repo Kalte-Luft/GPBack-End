@@ -48,6 +48,30 @@ let handleGetCampaignDonationsByUser = async (req, res) => {
         });
     }
 }
+let handleGetCampaignDonationsByCampaign = async (req, res) => {
+    try {
+        let id = req.query.id; // Lấy id từ query params
+        if (!id) {
+            return res.status(400).json({
+                errCode: 1,
+                message: "Missing required parameter!",
+                campaignDonations: []
+            });
+        }
+        let campaignDonations = await campaignDonationService.getCampaignDonationsByCampaign(id);
+        return res.status(200).json({
+            errCode: 0,
+            message: "OK",
+            campaignDonations
+        });
+    } catch (error) {
+        return res.status(500).json({
+            errCode: 1,
+            message: "Error from server",
+            console: error
+        });
+    }
+}
 let handleCreateCampaignDonation = async (req, res) => {
     try {
         let message = await campaignDonationService.createCampaignDonation(req.body);
@@ -98,4 +122,5 @@ module.exports = {
     handleUpdateCampaignDonation,
     handleDeleteCampaignDonation,
     handleGetCampaignDonationsByUser,
+    handleGetCampaignDonationsByCampaign,
 };

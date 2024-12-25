@@ -7,48 +7,48 @@ let handleGetAllCarts = async (req, res) => {
             return res.status(400).json({
                 errCode: 1,
                 message: "Missing required parameter!",
-                carts: []
+                carts: [],
             });
         }
         let carts = await cartService.getAllCarts(id);
         return res.status(200).json({
             errCode: 0,
             message: "OK",
-            carts
+            carts,
         });
     } catch (error) {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            console: error
+            console: error,
         });
     }
 };
 let handleGetCartByUser = async (req, res) => {
     try {
         let id = req.query.id;
-        let  status = req.query.status;
+        let status = req.query.status;
         if (!id && !status) {
             return res.status(400).json({
                 errCode: 1,
                 message: "Missing required parameter!",
-                carts: []
+                carts: [],
             });
         }
         let carts = await cartService.getAllCartsByUser(id, status);
         return res.status(200).json({
             errCode: 0,
             message: "OK",
-            carts
+            carts,
         });
     } catch (error) {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            console: error
+            console: error,
         });
     }
-}
+};
 
 let handleCreateCart = async (req, res) => {
     try {
@@ -58,7 +58,7 @@ let handleCreateCart = async (req, res) => {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            console: error
+            console: error,
         });
     }
 };
@@ -68,11 +68,11 @@ let handleUpdateCart = async (req, res) => {
         let message = await cartService.updateCart(req.body);
         return res.status(200).json(message);
     } catch (error) {
-        console.error("Error updating cart:", error)
+        console.error("Error updating cart:", error);
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            console: error
+            console: error,
         });
     }
 };
@@ -92,7 +92,7 @@ let handleDeleteCart = async (req, res) => {
         return res.status(500).json({
             errCode: 1,
             message: "Error from server",
-            console: error
+            console: error,
         });
     }
 };

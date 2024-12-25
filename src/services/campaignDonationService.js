@@ -63,6 +63,30 @@ let getCampaignDonationsByUser = (userId) => {
         }
     });
 };
+let getCampaignDonationsByCampaign = (campaignId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let campaignDonations = await db.CampaignDonation.findAll({
+                where: { campaign_id: campaignId },
+                include: [
+                    {
+                        model: db.User,
+                        as: "user",
+                        attributes: ["name"],
+                    },
+                    {
+                        model: db.Campaign,
+                        as: "campaign",
+                        attributes: ["title"],
+                    }
+                ],
+            });
+            resolve(campaignDonations);
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
 let createCampaignDonation = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -138,4 +162,5 @@ module.exports = {
     updateCampaignDonation,
     deleteCampaignDonation,
     getCampaignDonationsByUser,
+    getCampaignDonationsByCampaign,
 };

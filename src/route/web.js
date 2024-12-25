@@ -34,6 +34,7 @@ let initWebRoutes = (app) => {
     router.put("/api/update-campaign", campaignController.handleUpdateCampaign);
     router.delete("/api/delete-campaign", campaignController.handleDeleteCampaign);
     router.get("/api/get-campaigns-by-province", campaignController.handleGetCampaignsByProvince);
+    router.get("/api/get-campaign-status-counts", campaignController.getCampaignStatusCounts);
 
     //api province
     router.get("/api/get-all-provinces", provinceController.handleGetAllProvinces);
@@ -43,6 +44,7 @@ let initWebRoutes = (app) => {
     router.post("/api/create-partner", partnerController.handleCreatePartner);
     router.put("/api/update-partner", partnerController.handleUpdatePartner);
     router.delete("/api/delete-partner", partnerController.handleDeletePartner);
+    router.get("/api/get-partners-by-campaign", partnerController.handleGetPartnersByCampaign);
 
     //api campaign-donation
     router.get("/api/get-all-campaign-donations", campaignDonationController.handleGetAllCampaignDonations);
@@ -50,6 +52,7 @@ let initWebRoutes = (app) => {
     router.put("/api/update-campaign-donation", campaignDonationController.handleUpdateCampaignDonation);
     router.delete("/api/delete-campaign-donation", campaignDonationController.handleDeleteCampaignDonation);
     router.get("/api/get-campaign-donations-by-user", campaignDonationController.handleGetCampaignDonationsByUser);
+    router.get("/api/get-campaign-donations-by-campaign", campaignDonationController.handleGetCampaignDonationsByCampaign);
     //api product
     router.get("/api/get-all-products", productController.handleGetAllProducts);
     router.post("/api/create-product", productController.handleCreateProduct);
@@ -62,12 +65,15 @@ let initWebRoutes = (app) => {
     router.delete("/api/delete-cart", cartController.handleDeleteCart);
     router.get("/api/get-cart-by-user", cartController.handleGetCartByUser);
 
+
     //api donation
     router.get("/api/get-all-donations", donationController.handleGetAllDonations);
     router.post("/api/create-donation", donationController.handleCreateDonation);
     router.put("/api/update-donation", donationController.handleUpdateDonation);
     router.delete("/api/delete-donation", donationController.handleDeleteDonation);
     router.get("/api/get-donation-by-user", donationController.handleGetDonationByUser);
+    router.get("/api/get-donations-count-for-current-week", donationController.handleGetDonationsCountForCurrentWeek);
+
     //api email
     router.post("/api/send-otp", emailController.handleSendOTP);
     //router.post("/api/verify-otp", emailController.handleVerifyOTP);

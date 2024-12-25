@@ -32,6 +32,30 @@ let getAllPartners = (id) => {
         }
     });
 };
+
+
+let getPartnersByCampaign = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let partners = "";
+            if (id) {
+                partners = await db.Partner.findAll({
+                    where: { campaign_id: id },
+                    include: [
+                        {
+                            model: db.Campaign,
+                            as: "campaign",
+                            attributes: ["title"],
+                        },
+                    ],
+                });
+            }
+            resolve(partners);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
 let createPartner =  (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -103,6 +127,7 @@ let updatePartner =  (data) => {
 
 module.exports = {
     getAllPartners: getAllPartners,
+    getPartnersByCampaign: getPartnersByCampaign,
     createPartner: createPartner,
     deletePartner: deletePartner,
     updatePartner: updatePartner,
